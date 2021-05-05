@@ -247,3 +247,86 @@ console.log(videos.reduce(function(memo, item) {
     memo[item['id']] = item['title'];
     return memo; 
 },{}));
+
+
+//Задание 2 
+var Robot = function(name) {
+	this.name = name;
+}
+
+function add(op1, op2) {
+	this.name = this.name || "Human";
+	return  this.name + ' can count to ' + (op1 + op2);
+}
+
+var voltron = new Robot("Voltron");
+
+console.log(add.apply(this,[0,1]));
+
+console.log(add.call(voltron,1,2));
+
+console.log(add.apply(voltron,[20,30]));
+
+let fixedToFunction = add.bind(voltron);
+console.log(fixedToFunction('drinking','beer'));
+
+//Задание 4
+
+//а)
+function delay(duration){
+    let promise = new Promise((resolve,reject) => {
+        setTimeout(() => {
+            resolve();
+          }, duration);
+    });
+    return promise;
+}
+function logHi(){
+    console.log('hi');
+}
+delay(2000).then(logHi);
+
+//б)
+
+new Promise(function(resolve, reject) {
+    setTimeout(() => {
+        resolve(10);
+    }, 3000);
+    // должно через 3 секунды передать дальше значение - 10
+}).then((result) => {
+    console.log(result);
+    return result*2;
+    // должно вывести в console значение полученное и передать дальше
+    // увеличенное на 2
+}).then((result) => {
+    console.log(result);
+    return new Promise((resolve,reject) => {
+        setTimeout(() => {
+            resolve(result*2);
+        }, 2000);
+        });
+    // должно вывести в console значение полученное и передать дальше
+    // увеличенное на 2 через 2 секунды
+}).then((result) => {
+    console.log(result);
+    // должно вывести конечный результат
+});
+
+//в)
+  
+let promise = new Promise((resolve,reject) => {
+    let timeToProcces = Math.random() * 3;
+    if (timeToProcces <= 2) {
+        resolve('time not greater than 2 sec');
+    }
+    reject('time is greater than 2 sec');
+});
+
+promise.then((result) => {
+    console.log(result);
+}, (failure) => {
+    console.error(failure);
+})
+
+
+  
